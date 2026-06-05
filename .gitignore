@@ -1,0 +1,64 @@
+# =============================================================================
+# gridea-pro-portable .gitignore
+# =============================================================================
+
+# 上游源码（sync-upstream.sh 拉取的源码目录）
+source/
+
+# 构建产物
+dist/
+build/
+*.exe
+*.app
+*.zip
+*.tar.gz
+*.tar.xz
+*.dmg
+*.AppImage
+*.deb
+*.rpm
+SHA256SUMS
+
+# 打包暂存区
+.staging/
+portable-staging/
+
+# Go
+*.o
+*.a
+*.so
+*.dylib
+vendor/
+
+# Node.js / Frontend
+node_modules/
+frontend/node_modules/
+frontend/dist/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.directory
+
+# 环境变量文件
+.env
+.env.local
+.env.*.local
