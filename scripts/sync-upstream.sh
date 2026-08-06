@@ -160,7 +160,7 @@ esac
 
 # 调用 Wails 构建
 if command -v wails &>/dev/null; then
-    wails build -platform "${WAILS_PLATFORM}" -clean -trimpath \
+    CGO_ENABLED=1 wails build -platform "${WAILS_PLATFORM}" -clean -trimpath \
         -tags "${WAILS_TAGS}" -ldflags "${LDFLAGS}"
 else
     echo "  ⚠ wails 未安装，尝试使用 go build 替代..."
@@ -175,11 +175,11 @@ echo "  构建 MCP 服务器..."
 case "${OS}" in
     windows)
         MCP_OUTPUT="build/bin/${BIN_SLUG}-mcp.exe"
-        MCP_CGO=0
+        MCP_CGO=1
         ;;
     *)
         MCP_OUTPUT="build/bin/${BIN_SLUG}-mcp"
-        MCP_CGO=0
+        MCP_CGO=1
         ;;
 esac
 

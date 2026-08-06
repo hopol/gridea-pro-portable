@@ -120,7 +120,10 @@ Write-Host "  ldflags: $ldflags"
 Write-Host ""
 
 Push-Location $SourceDir
+$previousCgo = $env:CGO_ENABLED
+$env:CGO_ENABLED = "1"
 wails build -platform "windows/$arch" -clean -trimpath -tags portable -ldflags $ldflags
+$env:CGO_ENABLED = $previousCgo
 Pop-Location
 
 # 构建 MCP 服务器
@@ -128,7 +131,7 @@ Write-Host "  构建 MCP 服务器..."
 Push-Location $SourceDir
 $env:GOOS = "windows"
 $env:GOARCH = $arch
-$env:CGO_ENABLED = "0"
+$env:CGO_ENABLED = "1"
 go build -tags portable -ldflags="-s -w -X main.Version=$VersionNum" -o "build/bin/$BinSlug-mcp.exe" ./backend/cmd/mcp
 $env:GOOS = ""
 $env:GOARCH = ""
