@@ -229,6 +229,10 @@ jobs:
     runs-on: windows-latest
     timeout-minutes: 60
     strategy:
+      # A failure in one architecture must not cancel the other build. This is
+      # especially important because Wails CLI installation can still be
+      # downloading while its sibling job reaches a later build step.
+      fail-fast: false
       matrix:
         include:
           - arch: amd64
@@ -297,7 +301,10 @@ jobs:
           # github.com/chai2010/webp requires CGO. GitHub-hosted Windows runners
           # do not provide a suitable MinGW compiler for every target arch by
           # default, so use llvm-mingw for both amd64 and arm64 builds.
-          $url = "https://github.com/mstorsjo/llvm-mingw/releases/download/20250103/llvm-mingw-20250103-msvcrt-x86_64.zip"
+          # 20250103 was never published as an llvm-mingw release asset and
+          # therefore returns HTTP 404. Keep this valid release pinned so the
+          # toolchain used for release builds is reproducible.
+          $url = "https://github.com/mstorsjo/llvm-mingw/releases/download/20260616/llvm-mingw-20260616-msvcrt-x86_64.zip"
           $zipPath = "$env:TEMP\llvm-mingw.zip"
           $extractRoot = "C:\llvm-mingw"
           Write-Host "Downloading llvm-mingw for Windows CGO builds..."
